@@ -12,7 +12,6 @@
     "build:fast": "ng build --prod --base-href=\"\" --deploy-url dist/ --optimization=false",
     "build:hot": "ng build --prod --output-hashing=none --base-href=\"\" --deploy-url dist/ --optimization=false --watch --verbose",
     "compodoc": "compodoc -p src/tsconfig.app.json"
-
   },
   "private": true,
   "dependencies": {

@@ -14,12 +14,12 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>annotation</name>
 	<description>Entity recognition utility</description>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 
 	<properties>
 		<java.version>1.8</java.version>
-		<dist.dir>src/main/resources/webapp/gui/dist/</dist.dir>
-		<gui.dir>src/main/resources/webapp/gui/</gui.dir>
+		<dist.dir>${project.basedir}/src/main/resources/webapp/gui/dist/</dist.dir>
+		<gui.dir>${project.basedir}/src/main/resources/webapp/gui/</gui.dir>
 	</properties>
 
 	<dependencies>
@@ -51,14 +51,14 @@
 
 	<build>
 		<finalName>${project.artifactId}</finalName>
-		<resources>
-			<resource>
-				<directory>/Users/andrey/workspaces/reveal/annotation/src/main/resources/webapp/gui/node_modules</directory>
-				<excludes>
-					<exclude>*</exclude>
-				</excludes>
-			</resource>
-		</resources>
+<!-- 		<resources> -->
+<!-- 			<resource> -->
+<!-- 				<directory>${project.basedir}/src/main/resources/</directory> -->
+<!-- 				<excludes> -->
+<!-- 					<exclude>webapp/gui/node_modules/**</exclude> -->
+<!-- 				</excludes> -->
+<!-- 			</resource> -->
+<!-- 		</resources> -->
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
@@ -93,7 +93,7 @@
 						</goals>
 						<configuration>
 							<executable>npm</executable>
-							<workingDirectory>${project.basedir}/${gui.dir}</workingDirectory>
+							<workingDirectory>${gui.dir}</workingDirectory>
 							<arguments>
 								<argument>install</argument>
 							</arguments>
@@ -108,7 +108,7 @@
 						</goals>
 						<configuration>
 							<executable>npm</executable>
-							<workingDirectory>${project.basedir}/${gui.dir}</workingDirectory>
+							<workingDirectory>${gui.dir}</workingDirectory>
 							<arguments>
 								<argument>run</argument>
 								<argument>build:prod</argument>
