@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.1.9.RELEASE</version>
+		<relativePath /> <!-- lookup parent from repository -->
+	</parent>
+	<groupId>it.reveal.ann</groupId>
+	<artifactId>annotation</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>annotation</name>
+	<description>Entity recognition utility</description>
+	<packaging>war</packaging>
+
+	<properties>
+		<java.version>1.8</java.version>
+		<dist.dir>src/main/resources/webapp/gui/dist/</dist.dir>
+		<gui.dir>src/main/resources/webapp/gui/</gui.dir>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-tomcat</artifactId>
+			<scope>provided</scope>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<finalName>${project.artifactId}</finalName>
+		<resources>
+			<resource>
+				<directory>/Users/andrey/workspaces/reveal/annotation/src/main/resources/webapp/gui/node_modules</directory>
+				<excludes>
+					<exclude>*</exclude>
+				</excludes>
+			</resource>
+		</resources>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<!-- <plugin> <artifactId>maven-clean-plugin</artifactId> <executions> 
+				<execution> <id>auto-clean</id> <phase>${clean.phase}</phase> <goals> <goal>clean</goal> 
+				</goals> </execution> </executions> <configuration> <filesets> <fileset> 
+				<directory>${project.basedir}/${dist.dir}</directory> <followSymlinks>false</followSymlinks> 
+				</fileset> </filesets> </configuration> </plugin> -->
+			<plugin>
+				<groupId>org.codehaus.cargo</groupId>
+				<artifactId>cargo-maven2-plugin</artifactId>
+				<version>1.7.7</version>
+				<configuration>
+					<container>
+						<containerId>tomcat9x</containerId>
+						<type>embedded</type>
+					</container>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<executions>
+					<!-- 1 -->
+					<execution>
+						<id>npm-install</id>
+						<phase>${npm-install.phase}</phase>
+						<goals>
+							<goal>exec</goal>
+						</goals>
+						<configuration>
+							<executable>npm</executable>
+							<workingDirectory>${project.basedir}/${gui.dir}</workingDirectory>
+							<arguments>
+								<argument>install</argument>
+							</arguments>
+						</configuration>
+					</execution>
+					<!-- 2 -->
+					<execution>
+						<id>npm-run-build</id>
+						<phase>${npm-run-build.phase}</phase>
+						<goals>
+							<goal>exec</goal>
+						</goals>
+						<configuration>
+							<executable>npm</executable>
+							<workingDirectory>${project.basedir}/${gui.dir}</workingDirectory>
+							<arguments>
+								<argument>run</argument>
+								<argument>build:prod</argument>
+							</arguments>
+						</configuration>
+					</execution>
+
+				</executions>
+			</plugin>
+
+		</plugins>
+
+	</build>
+
+</project>
